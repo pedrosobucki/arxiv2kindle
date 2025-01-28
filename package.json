@@ -1,0 +1,15 @@
+{
+  "name": "arxiv2kindle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "epub.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "pedrosobucki@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^24.1.1"
+  }
+}
