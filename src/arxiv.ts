@@ -6,12 +6,14 @@ import { config } from "./config";
 const EXPORTS_DIR = path.join(__dirname, "..", "exports");
 
 export function extractArxivId(text: string): string | null {
-  const match = text.match(/(?:arxiv\.org\/(?:abs|html|pdf)\/)?(\d{4}\.\d{4,5})/i);
+  const match = text.match(
+    /(?:arxiv\.org\/(?:abs|html|pdf)\/)?(\d{4}\.\d{4,5})/i,
+  );
   return match ? match[1] : null;
 }
 
 export async function convertArxivToPdf(
-  arxivID: string
+  arxivID: string,
 ): Promise<{ filePath: string; title: string }> {
   const browser = await puppeteer.launch({
     executablePath: config.chromePath,
@@ -29,9 +31,7 @@ export async function convertArxivToPdf(
       return h1 ? h1.textContent : arxiv;
     }, arxivID);
 
-    const title = rawTitle
-      ? rawTitle + " - arxiv " + arxivID
-      : arxivID;
+    const title = rawTitle ? rawTitle.trim() + " - arxiv " + arxivID : arxivID;
 
     await page.addStyleTag({
       content: `

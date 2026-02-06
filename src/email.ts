@@ -97,7 +97,8 @@ export async function sendToKindle(
     from: config.emailUser,
     to: config.kindleEmail,
     subject: title,
-    text: "",
+    text: " ",
+    html: "<br>",
     attachments: [
       {
         filename: path.basename(pdfPath),
