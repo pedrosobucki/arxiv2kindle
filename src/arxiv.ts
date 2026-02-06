@@ -12,6 +12,13 @@ export function extractArxivId(text: string): string | null {
   return match ? match[1] : null;
 }
 
+export function findExistingPdf(arxivID: string): string | null {
+  if (!fs.existsSync(EXPORTS_DIR)) return null;
+  const files = fs.readdirSync(EXPORTS_DIR);
+  const match = files.find((f) => f.endsWith(".pdf") && f.includes(arxivID));
+  return match ? path.join(EXPORTS_DIR, match) : null;
+}
+
 export async function convertArxivToPdf(
   arxivID: string,
 ): Promise<{ filePath: string; title: string }> {

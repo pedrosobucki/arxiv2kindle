@@ -1,7 +1,7 @@
 import { config } from "./config";
 import { checkInbox } from "./email";
-import { sendToKindle } from "./email";
-import { extractArxivId, convertArxivToPdf } from "./arxiv";
+import { sendToKindle, sendConfirmation } from "./email";
+import { extractArxivId, convertArxivToPdf, findExistingPdf } from "./arxiv";
 
 async function poll() {
   try {
@@ -34,11 +34,20 @@ async function poll() {
 
       console.log(`Processing arXiv ${arxivId} from ${sender}...`);
 
+      const existing = findExistingPdf(arxivId);
+      if (existing) {
+        console.log(`Already have PDF for ${arxivId}: ${existing}, skipping.`);
+        continue;
+      }
+
       const { filePath, title } = await convertArxivToPdf(arxivId);
       console.log(`PDF generated: ${filePath}`);
 
       await sendToKindle(filePath, title);
       console.log(`Sent "${title}" to ${config.kindleEmail}`);
+
+      await sendConfirmation(sender, arxivId, title);
+      console.log(`Confirmation sent to ${sender}`);
     }
   } catch (err) {
     console.error("Poll error:", err);

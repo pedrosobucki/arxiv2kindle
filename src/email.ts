@@ -79,11 +79,8 @@ export async function checkInbox(): Promise<IncomingEmail[]> {
   return emails;
 }
 
-export async function sendToKindle(
-  pdfPath: string,
-  title: string,
-): Promise<void> {
-  const transporter = nodemailer.createTransport({
+function createTransporter() {
+  return nodemailer.createTransport({
     host: config.emailSmtpHost,
     port: config.emailSmtpPort,
     secure: config.emailSmtpPort === 465,
@@ -92,6 +89,27 @@ export async function sendToKindle(
       pass: config.emailPassword,
     },
   });
+}
+
+export async function sendConfirmation(
+  to: string,
+  arxivId: string,
+  title: string,
+): Promise<void> {
+  const transporter = createTransporter();
+  await transporter.sendMail({
+    from: config.emailUser,
+    to,
+    subject: `arxiv2kindle: sent ${arxivId}`,
+    text: `"${title}" has been sent to your Kindle.`,
+  });
+}
+
+export async function sendToKindle(
+  pdfPath: string,
+  title: string,
+): Promise<void> {
+  const transporter = createTransporter();
 
   await transporter.sendMail({
     from: config.emailUser,
