@@ -2,19 +2,23 @@
   "name": "arxiv2kindle",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/epub.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node epub.ts"
+    "start": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "pedrosobucki@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^17.2.4",
+    "imapflow": "^1.2.9",
+    "nodemailer": "^8.0.0",
     "puppeteer": "^24.1.1"
   },
   "devDependencies": {
     "@types/node": "^25.2.1",
+    "@types/nodemailer": "^7.0.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

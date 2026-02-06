@@ -9,4 +9,4 @@ RUN npm ci
 
 ENV CHROME_PATH=/usr/bin/chromium-browser
 
-CMD ["npx", "ts-node", "epub.ts"]
+CMD ["npx", "ts-node", "src/index.ts"]
