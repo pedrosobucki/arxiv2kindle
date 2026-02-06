@@ -1,0 +1,7 @@
+services:
+  worker:
+    build: .
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped

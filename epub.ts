@@ -6,7 +6,7 @@ const arxivID: string | undefined = process.argv[2];
 
 async function main() {
   const browser = await puppeteer.launch({
-    executablePath: "/usr/bin/google-chrome",
+    executablePath: process.env.CHROME_PATH || "/usr/bin/google-chrome",
     args: ["--no-sandbox"],
   });
   const page = await browser.newPage();
