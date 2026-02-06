@@ -95,13 +95,20 @@ export async function sendConfirmation(
   to: string,
   arxivId: string,
   title: string,
+  duplicate = false,
 ): Promise<void> {
   const transporter = createTransporter();
+  const subject = duplicate
+    ? `arxiv2kindle: already sent ${arxivId}`
+    : `arxiv2kindle: sent ${arxivId}`;
+  const text = duplicate
+    ? `"${title}" was already sent to your Kindle previously.`
+    : `"${title}" has been sent to your Kindle.`;
   await transporter.sendMail({
     from: config.emailUser,
     to,
-    subject: `arxiv2kindle: sent ${arxivId}`,
-    text: `"${title}" has been sent to your Kindle.`,
+    subject,
+    text,
   });
 }
 

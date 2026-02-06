@@ -1,3 +1,4 @@
+import path from "path";
 import { config } from "./config";
 import { checkInbox } from "./email";
 import { sendToKindle, sendConfirmation } from "./email";
@@ -37,6 +38,13 @@ async function poll() {
       const existing = findExistingPdf(arxivId);
       if (existing) {
         console.log(`Already have PDF for ${arxivId}: ${existing}, skipping.`);
+        await sendConfirmation(
+          sender,
+          arxivId,
+          path.basename(existing, ".pdf"),
+          true,
+        );
+        console.log(`Duplicate warning sent to ${sender}`);
         continue;
       }
 
